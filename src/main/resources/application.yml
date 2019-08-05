@@ -1,0 +1,7 @@
+#手动创建
+remoteLog:
+  logPath: D:/remoteLog
+logClient:
+  remoteUrl: http://127.0.0.1:6999/logServer/acceptRemote
+server:
+  port: 6999
