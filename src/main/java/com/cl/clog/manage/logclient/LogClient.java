@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -52,14 +53,23 @@ public class LogClient {
     }
 
 
+    public void send(Object...args){
+        send(null,args);
+    }
 
 
     public void  send(Exception e ,Object...args){
         StringBuilder sb = putStringBuilder(e);
         Arrays.stream(args).forEach(o -> {
-            sb.append("\t\t")
-              .append(o.toString())
-              .append(",");
+            if(!Objects.isNull(o)){
+                sb.append("\t\t")
+                        .append(o.toString())
+                        .append(",");
+            }else {
+                sb.append("\t\t")
+                        .append(o.toString())
+                        .append("null");
+            }
         });
         sb.append("\n");
         send(sb.toString());
@@ -74,15 +84,15 @@ public class LogClient {
                 nameValuePairs.add(new BasicNameValuePair("content",content));
                 URI uri2 = getRemoteUri();
                 log.info(uri2.getScheme()+ "://" + uri2.getHost() + ":" + uri2.getPort()  + uri2.getPath());
-                String http = null;
+                String httpRet = null;
                 try {
-                    http = HttpUtil.postForm(uri2.getScheme(),uri2.getHost(),uri2.getPort(),uri2.getPath(), nameValuePairs);
+                    httpRet = HttpUtil.postForm(uri2.getScheme(),uri2.getHost(),uri2.getPort(),uri2.getPath(), nameValuePairs);
                 } catch (URISyntaxException e) {
                     log.info("",e);
                 } catch (IOException e) {
                     log.info("",e);
                 }
-                log.info(http);
+                log.info(httpRet);
             }
         });
     }
@@ -91,8 +101,10 @@ public class LogClient {
     private StringBuilder putStringBuilder(Exception e) {
         StringBuilder sb = new StringBuilder();
         try {
-            String logContent = e.toString();
-            sb.append(logContent).append("\n");
+            if(e!=null){
+                String logContent = e.toString();
+                sb.append(logContent).append("\n");
+            }
             StackTraceElement[] stackTrace = e.getStackTrace();
             Arrays.stream(stackTrace).forEach(element -> {
                 sb.append("\t\t at ")
