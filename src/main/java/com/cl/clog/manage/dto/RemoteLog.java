@@ -12,7 +12,7 @@ public class RemoteLog {
     private String topic;
 
     private String content;
-    /**1000 覆盖  1001 追加  */
+    /**1000 覆盖  1001 追加  暂时没有用 */
     private int append;
 
     /**日志添加时间*/
