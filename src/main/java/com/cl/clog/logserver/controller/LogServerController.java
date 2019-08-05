@@ -41,7 +41,7 @@ public class LogServerController {
     @ResponseBody
     public Object acceptRemote(RemoteLog remoteLog){
         if(validate(remoteLog)){
-            manageLog.writeStr(manageLog.getTopicPath(remoteLog.getTopic()) ,remoteLog.getContent());
+            manageLog.writeStr(manageLog.produceTopicPath(remoteLog.getTopic()) ,remoteLog.getContent());
         }
         return ResultGenerator.genSuccessResult("写入日志成功！");
     }
@@ -56,7 +56,7 @@ public class LogServerController {
         try {
             response.setCharacterEncoding("gbk");
             PrintWriter writer = response.getWriter();
-            String topic = manageLog.getByDateAndTopic(LocalDate.now(), "default");
+            String topic = manageLog.getTopicPath(LocalDate.now(), "default");
             File f  = new File(topic);
             String s = manageLog.readSkip(f ,100,1000000);
             writer.write(s);
@@ -75,7 +75,7 @@ public class LogServerController {
     @RequestMapping("/readLogs2")
     public void readLogs2(HttpServletResponse response){
         try {
-            String topic = manageLog.getByDateAndTopic(LocalDate.now(), "default");
+            String topic = manageLog.getTopicPath(LocalDate.now(), "default");
             File f  = new File(topic);
             ServletOutputStream outputStream = response.getOutputStream();
             response.reset();

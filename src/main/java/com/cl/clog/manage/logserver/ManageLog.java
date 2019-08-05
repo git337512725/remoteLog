@@ -50,7 +50,7 @@ public class ManageLog  implements IManageLog{
     }
 
     @Override
-    public String getTopicPath(String topic) {
+    public String produceTopicPath(String topic) {
         if("".equals(topic) || null == topic){
             topic = "default";
         }
@@ -71,7 +71,7 @@ public class ManageLog  implements IManageLog{
 
 
     @Override
-    public String getByDateAndTopic(LocalDate date , String topic){
+    public String getTopicPath(LocalDate date , String topic){
         topic = topic + ".log";
         Map<String, Map<String, String>> dirFileMap = discoverTopicFile.getDateDirFileMap();
         Map<String, String> map = dirFileMap.get(date.toString());

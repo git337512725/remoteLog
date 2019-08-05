@@ -27,7 +27,7 @@ public interface IManageLog {
      * @param topic
      * @return
      */
-    String getTopicPath(String topic);
+    String produceTopicPath(String topic);
 
     /**
      * 将日志写入到文件中
@@ -43,7 +43,7 @@ public interface IManageLog {
      * @param topic
      * @return
      */
-    String getByDateAndTopic(LocalDate date, String topic);
+    String getTopicPath(LocalDate date, String topic);
 
     /**
      * 在文件中从读取日志
